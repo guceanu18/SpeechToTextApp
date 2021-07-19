@@ -1,0 +1,21 @@
+﻿<Page
+    x:Class="SpeechToTextApp.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:SpeechToTextApp"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d" Height="168" Width="410">
+
+    <Page.Resources>
+        <SolidColorBrush x:Key="TranslucentBlackBrush" Color="Black" Opacity="1"/>
+    </Page.Resources>
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+
+        <Button Content="Start Recording" Click="btnRec_Click" Visibility="Visible" Background="Green" x:Name="btnRec" Height="47" Width="155" Margin="31,106,0,0" VerticalAlignment="Top"/>
+        <Button Content="Stop Recording" Click="btnStop_Click" Visibility="Visible" Background="Red" x:Name="btnStop" Margin="245,106,0,0" VerticalAlignment="Top" Height="47" Width="139"/>
+
+    </Grid>
+</Page>
