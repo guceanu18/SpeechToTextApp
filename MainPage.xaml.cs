@@ -1,15 +1,4 @@
-﻿//*********************************************************
-//
-// Copyright (c) Microsoft. All rights reserved.
-// This code is licensed under the MIT License (MIT).
-// THIS CODE IS PROVIDED *AS IS* WITHOUT WARRANTY OF
-// ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING ANY
-// IMPLIED WARRANTIES OF FITNESS FOR A PARTICULAR
-// PURPOSE, MERCHANTABILITY, OR NON-INFRINGEMENT.
-//
-//*********************************************************
-
-using System;
+﻿using System;
 using System.Threading.Tasks;
 using Windows.Media.Capture;
 using Windows.Media.MediaProperties;
@@ -32,6 +21,7 @@ namespace SpeechToTextApp
 
         DisplayRequest displayRequest = new DisplayRequest();
 
+        string[] filenames;
 
         public MainPage()
         {
@@ -47,23 +37,76 @@ namespace SpeechToTextApp
         async Task InitializeMediaCaptureAsync()
         {
             mediaCapture = new MediaCapture();
+            mediaCapture = new MediaCapture();
             await mediaCapture.InitializeAsync();
             //mediaCapture.Failed += MediaCapture_Failed;
         }
 
         async Task startRecording()
+        {/*
+            //var myVideos = await Windows.Storage.StorageLibrary.GetLibraryAsync(Windows.Storage.KnownLibraryId.Videos);
+
+            //var myVideos = new Object();
+
+            var myVideos = await Windows.Storage.StorageFolder.GetFolderFromPathAsync(@"C:\Users\cioca\source\repos\SpeechToTextApp\bin\x86\Debug");
+
+            *//*Task.WaitAll(Task.Run(async () => {
+                myVideos = await Windows.Storage.StorageFolder.GetFolderFromPathAsync(@"C:\Users\cioca\source\repos\SpeechToTextApp\bin\x86\Debug");
+            }));*//*
+
+            //Task task = Windows.Storage.StorageFolder.GetFolderFromPathAsync(@"C:\Users\cioca\source\repos\SpeechToTextApp\bin\x86\Debug");
+
+            //file = await myVideos.SaveFolder.CreateFileAsync("audio.wav", CreationCollisionOption.GenerateUniqueName);
+            file = await myVideos.CreateFileAsync("audio.wav", CreationCollisionOption.GenerateUniqueName);
+
+            _mediaRecording = await mediaCapture.PrepareLowLagRecordToStorageFileAsync(
+                    MediaEncodingProfile.CreateWav(AudioEncodingQuality.High), file);*/
+
+
+            /*await Task.Run(async () =>
+            {
+                await generateFolder();
+            });*/
+
+            getFolder();
+
+            await _mediaRecording.StartAsync();
+        }
+
+        void getFolder()
         {
-            
-            var myVideos = await Windows.Storage.StorageLibrary.GetLibraryAsync(Windows.Storage.KnownLibraryId.Videos);
-            file = await myVideos.SaveFolder.CreateFileAsync("audio.wav", CreationCollisionOption.GenerateUniqueName);
+            Task.Run(async () =>
+            {
+                await generateFolder();
+            }).Wait();
+        }
+
+        async Task generateFolder()
+        {
+            string root = Windows.ApplicationModel.Package.Current.InstalledLocation.Path;
+
+            var myVideos = await Windows.Storage.StorageFolder.GetFolderFromPathAsync(root);
+
+            file = await myVideos.CreateFileAsync("audio.wav", CreationCollisionOption.GenerateUniqueName);
+
             _mediaRecording = await mediaCapture.PrepareLowLagRecordToStorageFileAsync(
                     MediaEncodingProfile.CreateWav(AudioEncodingQuality.High), file);
-            await _mediaRecording.StartAsync();
         }
 
         async Task stopRecording()
         {
             await _mediaRecording.StopAsync();
+            //Application.Current.Exit();
+            btnRec.IsEnabled = true;
+            btnStop.IsEnabled = false;
+            /*
+                        string sourcePath = "C:\\Users\\cioca\\Videos";
+                        string destinationPath = @"C:\\Users\\cioca\\source\\repos\\SpeechToTextApp\\bin\\x86\\Debug";
+
+                        string sourceFile = System.IO.Path.Combine(sourcePath, file.Name);
+                        string destinationFile = System.IO.Path.Combine(destinationPath, file.Name);
+
+                        System.IO.File.Copy(sourceFile, destinationFile, true);*/
         }
 
         void btnRec_Click(object sender, RoutedEventArgs e)
@@ -79,9 +122,11 @@ namespace SpeechToTextApp
             btnStop.IsEnabled = false;
             btnRec.IsEnabled = true;
 
-            Task taskStopRecording = Task.Run(async () => await stopRecording());
+            /* Task taskStopRecording = Task.Run(async () => await stopRecording());*/
 
-            Client.Client.Main(file.n);
+            var task = stopRecording();
+
+            Client.Client.start(new string[] { file.Name });
         }
     }
 }
