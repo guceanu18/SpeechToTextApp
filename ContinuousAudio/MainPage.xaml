@@ -6,16 +6,16 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" d:DesignWidth="390" d:DesignHeight="511">
 
-    <Grid Margin="10,120,41,105">
+    <Grid Margin="10,120,62,81">
         <Grid.RowDefinitions>
             <RowDefinition Height="84*"/>
             <RowDefinition Height="5*"/>
         </Grid.RowDefinitions>
-        <Button Content="Start" Click="Start_Click" Margin="144,96,0,0" VerticalAlignment="Top"/>
-        <Button Content="Stop" Click ="Stop_Click" Margin="144,154,0,0" VerticalAlignment="Top"/>
-        
+        <Button Content="Start" Click="Start_Click" Margin="144,96,0,0" VerticalAlignment="Top" Height="34" Width="133"/>
+        <Button Content="Stop and Transmit" Click ="Stop_Click" Margin="144,154,0,0" VerticalAlignment="Top"/>
+
 
 
     </Grid>

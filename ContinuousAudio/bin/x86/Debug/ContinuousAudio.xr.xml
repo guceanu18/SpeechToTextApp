@@ -19,6 +19,8 @@
       <RootProperty Name="Content" />
       <RootProperty Name="Margin" />
       <RootProperty Name="VerticalAlignment" />
+      <RootProperty Name="Height" />
+      <RootProperty Name="Width" />
       <RootEvent Name="Click" />
     </RootType>
     <RootType FullName="ContinuousAudio.MainPage" />
