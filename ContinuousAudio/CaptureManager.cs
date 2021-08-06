@@ -12,21 +12,36 @@ using System.Text;
 using System.Threading;
 using Windows.ApplicationModel.Core;
 using static System.Net.Mime.MediaTypeNames;
+<<<<<<< HEAD
+=======
+using NAudio.Wave;
+>>>>>>> 1e3bfd44aa4412807ebe5048e4d3a653b923e8e8
 
 namespace ContinuousAudio
 {
     internal class CaptureManager
+<<<<<<< HEAD
     {   
         //declararea tuturor variabilelor cu care lucram
         public DisplayRequest displayRequest = new DisplayRequest();
         public bool isInitialized;
         public bool isRecording;
+=======
+    {
+        public DisplayRequest displayRequest = new DisplayRequest();
+        public bool isInitialized;
+        public bool isRecording;
+        private StorageFolder captureFolder = null;
+>>>>>>> 1e3bfd44aa4412807ebe5048e4d3a653b923e8e8
         public static MemoryStream memStream = new MemoryStream();
         public IRandomAccessStream stream = memStream.AsRandomAccessStream();
 
         MediaCapture captureManager;
 
+<<<<<<< HEAD
         //initializeaza microfonul
+=======
+>>>>>>> 1e3bfd44aa4412807ebe5048e4d3a653b923e8e8
         public async Task InitializeCameraAsync()
         {
             captureManager = new MediaCapture();
@@ -38,19 +53,40 @@ namespace ContinuousAudio
             }
         }
 
+<<<<<<< HEAD
         //porneste inregistrarea
         public async Task StartRecordingAudioAsync()
         {
             var encodingProfile = MediaEncodingProfile.CreateWav(AudioEncodingQuality.Medium);
             encodingProfile.Audio = AudioEncodingProperties.CreatePcm(16000, 1, 16);
+=======
+        public async Task StartRecordingAudioAsync()
+        {
+
+            /*var picturesLibrary = await StorageLibrary.GetLibraryAsync(KnownLibraryId.Pictures);
+            captureFolder = picturesLibrary.SaveFolder;
+            //captureFolder = @"C:\Users\40731\source\repos\ConnectToWebSocket\ConnectToWebSocket\bin\Debug\netcoreapp3.1";
+            var audioFile = await captureFolder.CreateFileAsync("guc.wav", CreationCollisionOption.GenerateUniqueName);*/
+            var encodingProfile = MediaEncodingProfile.CreateWav(AudioEncodingQuality.Medium);
+            encodingProfile.Audio = AudioEncodingProperties.CreatePcm(16000, 1, 16);
+            //Debug.WriteLine("Starting recording to " + audioFile.Path);
+
+            //await captureManager.StartRecordToStorageFileAsync(encodingProfile, audioFile);
+>>>>>>> 1e3bfd44aa4412807ebe5048e4d3a653b923e8e8
 
             await captureManager.StartRecordToStreamAsync(encodingProfile, stream);
 
             Debug.WriteLine("Started recording!");
             isRecording = true;
+<<<<<<< HEAD
         }
 
         //opreste inregistrarea si transmite stream-ul catre serverul live-transcriber
+=======
+            
+        }
+
+>>>>>>> 1e3bfd44aa4412807ebe5048e4d3a653b923e8e8
         public async Task StopRecordingAudioAsync()
         {
             isRecording = false;
@@ -59,8 +95,12 @@ namespace ContinuousAudio
             Debug.WriteLine("Stopped recording!");
             
         }
+<<<<<<< HEAD
         
         //realizeaza pasii necesari conectarii la server prin websocket
+=======
+
+>>>>>>> 1e3bfd44aa4412807ebe5048e4d3a653b923e8e8
         public async Task speechtotext(Uri uri)
         {
 

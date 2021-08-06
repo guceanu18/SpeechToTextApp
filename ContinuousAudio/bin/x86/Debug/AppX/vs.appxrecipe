@@ -30,13 +30,21 @@
     <AppXManifest Include="C:\Users\40731\source\repos\ContinuousAudio\ContinuousAudio\bin\x86\Debug\Core\AppxManifest.xml">
       <PackagePath>AppxManifest.xml</PackagePath>
       <ReRegisterAppIfChanged>true</ReRegisterAppIfChanged>
+<<<<<<< HEAD
       <Modified>2021-08-06T09:08:31.316</Modified>
+=======
+      <Modified>2021-08-06T08:02:58.157</Modified>
+>>>>>>> 1e3bfd44aa4412807ebe5048e4d3a653b923e8e8
     </AppXManifest>
   </ItemGroup>
   <ItemGroup>
     <AppxPackagedFile Include="C:\Users\40731\source\repos\ContinuousAudio\ContinuousAudio\bin\x86\Debug\ContinuousAudio.exe">
       <PackagePath>entrypoint\ContinuousAudio.exe</PackagePath>
+<<<<<<< HEAD
       <Modified>2021-08-06T09:08:30.885</Modified>
+=======
+      <Modified>2021-08-06T08:02:57.717</Modified>
+>>>>>>> 1e3bfd44aa4412807ebe5048e4d3a653b923e8e8
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\40731\.nuget\packages\naudiosamplerate\1.0.3\lib\netstandard2.0\NAudio.dll">
       <PackagePath>NAudio.dll</PackagePath>
@@ -98,6 +106,7 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\40731\source\repos\ContinuousAudio\ContinuousAudio\bin\x86\Debug\ContinuousAudio.xr.xml">
       <PackagePath>ContinuousAudio.xr.xml</PackagePath>
+<<<<<<< HEAD
       <Modified>2021-08-06T09:08:30.802</Modified>
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\40731\source\repos\ContinuousAudio\ContinuousAudio\bin\x86\Debug\App.xbf">
@@ -107,6 +116,17 @@
     <AppxPackagedFile Include="C:\Users\40731\source\repos\ContinuousAudio\ContinuousAudio\bin\x86\Debug\MainPage.xbf">
       <PackagePath>MainPage.xbf</PackagePath>
       <Modified>2021-08-06T09:08:30.813</Modified>
+=======
+      <Modified>2021-08-04T08:18:47.517</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\40731\source\repos\ContinuousAudio\ContinuousAudio\bin\x86\Debug\App.xbf">
+      <PackagePath>App.xbf</PackagePath>
+      <Modified>2021-08-06T07:53:58.022</Modified>
+    </AppxPackagedFile>
+    <AppxPackagedFile Include="C:\Users\40731\source\repos\ContinuousAudio\ContinuousAudio\bin\x86\Debug\MainPage.xbf">
+      <PackagePath>MainPage.xbf</PackagePath>
+      <Modified>2021-08-06T07:53:58.022</Modified>
+>>>>>>> 1e3bfd44aa4412807ebe5048e4d3a653b923e8e8
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Program Files %28x86%29\Windows Kits\10\UnionMetadata\10.0.19041.0\Windows.winmd">
       <PackagePath>WinMetadata\Windows.winmd</PackagePath>
@@ -118,7 +138,11 @@
     </AppxPackagedFile>
     <AppxPackagedFile Include="C:\Users\40731\source\repos\ContinuousAudio\ContinuousAudio\bin\x86\Debug\Core\ContinuousAudio.exe">
       <PackagePath>ContinuousAudio.exe</PackagePath>
+<<<<<<< HEAD
       <Modified>2021-08-06T09:08:31.311</Modified>
+=======
+      <Modified>2021-08-06T08:02:58.154</Modified>
+>>>>>>> 1e3bfd44aa4412807ebe5048e4d3a653b923e8e8
     </AppxPackagedFile>
   </ItemGroup>
   <ItemGroup>
