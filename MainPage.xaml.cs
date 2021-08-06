@@ -7,21 +7,19 @@ using Windows.System.Display;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Client;
+using System.IO;
+using Windows.Storage.Streams;
 
 namespace SpeechToTextApp
 {
     public sealed partial class MainPage : Page
     {
-
-        StorageFile file;
-
         MediaCapture mediaCapture;
-
-        LowLagMediaRecording _mediaRecording;
 
         DisplayRequest displayRequest = new DisplayRequest();
 
-        string[] filenames;
+        public static MemoryStream memoryStream = new MemoryStream();
+        public IRandomAccessStream stream = memoryStream.AsRandomAccessStream();
 
         public MainPage()
         {
@@ -43,70 +41,17 @@ namespace SpeechToTextApp
         }
 
         async Task startRecording()
-        {/*
-            //var myVideos = await Windows.Storage.StorageLibrary.GetLibraryAsync(Windows.Storage.KnownLibraryId.Videos);
-
-            //var myVideos = new Object();
-
-            var myVideos = await Windows.Storage.StorageFolder.GetFolderFromPathAsync(@"C:\Users\cioca\source\repos\SpeechToTextApp\bin\x86\Debug");
-
-            *//*Task.WaitAll(Task.Run(async () => {
-                myVideos = await Windows.Storage.StorageFolder.GetFolderFromPathAsync(@"C:\Users\cioca\source\repos\SpeechToTextApp\bin\x86\Debug");
-            }));*//*
-
-            //Task task = Windows.Storage.StorageFolder.GetFolderFromPathAsync(@"C:\Users\cioca\source\repos\SpeechToTextApp\bin\x86\Debug");
-
-            //file = await myVideos.SaveFolder.CreateFileAsync("audio.wav", CreationCollisionOption.GenerateUniqueName);
-            file = await myVideos.CreateFileAsync("audio.wav", CreationCollisionOption.GenerateUniqueName);
-
-            _mediaRecording = await mediaCapture.PrepareLowLagRecordToStorageFileAsync(
-                    MediaEncodingProfile.CreateWav(AudioEncodingQuality.High), file);*/
-
-
-            /*await Task.Run(async () =>
-            {
-                await generateFolder();
-            });*/
-
-            getFolder();
-
-            await _mediaRecording.StartAsync();
-        }
-
-        void getFolder()
         {
-            Task.Run(async () =>
-            {
-                await generateFolder();
-            }).Wait();
-        }
-
-        async Task generateFolder()
-        {
-            string root = Windows.ApplicationModel.Package.Current.InstalledLocation.Path;
-
-            var myVideos = await Windows.Storage.StorageFolder.GetFolderFromPathAsync(root);
-
-            file = await myVideos.CreateFileAsync("audio.wav", CreationCollisionOption.GenerateUniqueName);
-
-            _mediaRecording = await mediaCapture.PrepareLowLagRecordToStorageFileAsync(
-                    MediaEncodingProfile.CreateWav(AudioEncodingQuality.High), file);
+            MediaEncodingProfile encodingProfile = MediaEncodingProfile.CreateWav(AudioEncodingQuality.Medium);
+            encodingProfile.Audio = AudioEncodingProperties.CreatePcm(16000, 1, 16);
+            await mediaCapture.StartRecordToStreamAsync(encodingProfile, stream);
         }
 
         async Task stopRecording()
         {
-            await _mediaRecording.StopAsync();
-            //Application.Current.Exit();
+            await mediaCapture.StopRecordAsync();
             btnRec.IsEnabled = true;
             btnStop.IsEnabled = false;
-            /*
-                        string sourcePath = "C:\\Users\\cioca\\Videos";
-                        string destinationPath = @"C:\\Users\\cioca\\source\\repos\\SpeechToTextApp\\bin\\x86\\Debug";
-
-                        string sourceFile = System.IO.Path.Combine(sourcePath, file.Name);
-                        string destinationFile = System.IO.Path.Combine(destinationPath, file.Name);
-
-                        System.IO.File.Copy(sourceFile, destinationFile, true);*/
         }
 
         void btnRec_Click(object sender, RoutedEventArgs e)
@@ -122,11 +67,9 @@ namespace SpeechToTextApp
             btnStop.IsEnabled = false;
             btnRec.IsEnabled = true;
 
-            /* Task taskStopRecording = Task.Run(async () => await stopRecording());*/
-
             var task = stopRecording();
 
-            Client.Client.start(new string[] { file.Name });
+            Client.Client.start(stream);
         }
     }
 }
