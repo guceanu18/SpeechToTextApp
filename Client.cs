@@ -95,11 +95,6 @@ namespace Client
                     System.Diagnostics.Debug.WriteLine(item["word"]);
                     //Console.WriteLine(item["AppId"]);
                 }
-
-                var first = receivedString.IndexOf("text");
-                first += 8;
-                //var last = receivedString.Length;
-                //System.Diagnostics.Debug.WriteLine(receivedString.Substring(first));
             }
             if (receivedString.Contains("message"))
             {
