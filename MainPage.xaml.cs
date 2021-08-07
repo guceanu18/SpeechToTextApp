@@ -61,6 +61,7 @@ namespace SpeechToTextApp
             //await startRecording();
 
             Task taskStartRecording = Task.Run(async () => await startRecording());
+            
         }
 
         async void btnStop_Click(object sender, RoutedEventArgs e)
@@ -69,10 +70,10 @@ namespace SpeechToTextApp
             btnRec.IsEnabled = true;
 
             await stopRecording();
-
+            Client.Client.start(stream);
             //var task = stopRecording();
 
-            Client.Client.start(stream);
+
         }
     }
 }

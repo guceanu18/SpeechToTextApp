@@ -90,11 +90,8 @@ namespace Client
            
             if (receivedString.Contains("text"))
             {
-                foreach (var item in obj["result"])
-                {
-                    System.Diagnostics.Debug.WriteLine(item["word"]);
-                    //Console.WriteLine(item["AppId"]);
-                }
+                var item = obj["text"].ToString();
+                System.Diagnostics.Debug.WriteLine(item);
             }
             if (receivedString.Contains("message"))
             {
