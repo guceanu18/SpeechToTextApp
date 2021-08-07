@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using System.Net.WebSockets;
 using System.Threading;
 using Windows.Storage.Streams;
+using System.Collections.Generic;
+using Newtonsoft.Json.Linq;
 
 namespace Client
 {
@@ -13,12 +15,13 @@ namespace Client
         private static string port;
         private static string key;
         private static IRandomAccessStream stream;
+        private static List<string> mResult = new List<string>();
 
-        public Client()
+        /*public Client()
         {
             port = "12320";
             key = "e4b70d22ca4b47369fbbc46b2afa3c33";
-    }
+        } */  
 
         public Client(IRandomAccessStream inputStream)
         {
@@ -80,8 +83,24 @@ namespace Client
             Task<WebSocketReceiveResult> receiveTask = ws.ReceiveAsync(new ArraySegment<byte>(result), CancellationToken.None);
             await receiveTask;
             var receivedString = Encoding.UTF8.GetString(result, 0, receiveTask.Result.Count);
-            System.Diagnostics.Debug.WriteLine("Result {0}", receivedString);
+            //System.Diagnostics.Debug.WriteLine("Result {0}", receivedString);
 
+            JObject obj = JObject.Parse(receivedString);
+
+           
+            if (receivedString.Contains("text"))
+            {
+                foreach (var item in obj["result"])
+                {
+                    System.Diagnostics.Debug.WriteLine(item["word"]);
+                    //Console.WriteLine(item["AppId"]);
+                }
+
+                var first = receivedString.IndexOf("text");
+                first += 8;
+                //var last = receivedString.Length;
+                //System.Diagnostics.Debug.WriteLine(receivedString.Substring(first));
+            }
             if (receivedString.Contains("message"))
             {
                 await ws.CloseOutputAsync(WebSocketCloseStatus.NormalClosure, "", CancellationToken.None);

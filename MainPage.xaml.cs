@@ -37,7 +37,6 @@ namespace SpeechToTextApp
             mediaCapture = new MediaCapture();
             mediaCapture = new MediaCapture();
             await mediaCapture.InitializeAsync();
-            //mediaCapture.Failed += MediaCapture_Failed;
         }
 
         async Task startRecording()
@@ -59,15 +58,19 @@ namespace SpeechToTextApp
             btnStop.IsEnabled = true;
             btnRec.IsEnabled = false;
 
+            //await startRecording();
+
             Task taskStartRecording = Task.Run(async () => await startRecording());
         }
 
-        void btnStop_Click(object sender, RoutedEventArgs e)
+        async void btnStop_Click(object sender, RoutedEventArgs e)
         {
             btnStop.IsEnabled = false;
             btnRec.IsEnabled = true;
 
-            var task = stopRecording();
+            await stopRecording();
+
+            //var task = stopRecording();
 
             Client.Client.start(stream);
         }
