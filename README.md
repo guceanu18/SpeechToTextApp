@@ -4,8 +4,7 @@ Sends the Audio to Server and Receives the Result from Server
 in Output Window of Debug.
 ## Installation & Using Process
 For this project to work on your computer you need to clone it in your
-Visual Studio, then run it with Debug. Also you need to install the
-NuGet Package Newtonsoft.Json
+Visual Studio, then run it with Debug.
 1. Once run, you will have to grant your permission for the access of 
 Camera and Microfon. 
 2. If permission is granted the User Interface will open up on screen with
