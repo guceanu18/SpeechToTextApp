@@ -7,6 +7,7 @@ using System.Threading;
 using Windows.Storage.Streams;
 using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
+using Windows.Storage;
 
 namespace Client
 {
@@ -15,14 +16,7 @@ namespace Client
         private static string port;
         private static string key;
         private static IRandomAccessStream stream;
-        private static List<string> mResult = new List<string>();
-
-        /*public Client()
-        {
-            port = "12320";
-            key = "e4b70d22ca4b47369fbbc46b2afa3c33";
-        } */  
-
+        
         public Client(IRandomAccessStream inputStream)
         {
             port = "12320";
@@ -86,12 +80,19 @@ namespace Client
             //System.Diagnostics.Debug.WriteLine("Result {0}", receivedString);
 
             JObject obj = JObject.Parse(receivedString);
+            string fileName = "text.txt";
+            string sourcePath = @"C:\Users\40731\Pictures";
+            string sourceFile = System.IO.Path.Combine(sourcePath, fileName);
 
-           
             if (receivedString.Contains("text"))
             {
                 var item = obj["text"].ToString();
-                System.Diagnostics.Debug.WriteLine(item);
+                //System.Diagnostics.Debug.WriteLine(item);
+                using (var destination = File.AppendText(sourceFile))
+                {
+                    destination.WriteLine(item);
+                }
+
             }
             if (receivedString.Contains("message"))
             {
