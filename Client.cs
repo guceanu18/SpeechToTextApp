@@ -77,15 +77,20 @@ namespace Client
             Task<WebSocketReceiveResult> receiveTask = ws.ReceiveAsync(new ArraySegment<byte>(result), CancellationToken.None);
             await receiveTask;
             var receivedString = Encoding.UTF8.GetString(result, 0, receiveTask.Result.Count);
-            //System.Diagnostics.Debug.WriteLine("Result {0}", receivedString);
 
             JObject obj = JObject.Parse(receivedString);
-            string fileName = "text.txt";
-            string sourcePath = @"C:\Users\40731\Pictures";
-            string sourceFile = System.IO.Path.Combine(sourcePath, fileName);
-
+            
             if (receivedString.Contains("text"))
             {
+                string fileName = "text.txt";
+                var picturesLibrary = await StorageLibrary.GetLibraryAsync(KnownLibraryId.Pictures);
+                StorageFolder captureFolder = picturesLibrary.SaveFolder;
+                var audioFile = await captureFolder.CreateFileAsync(fileName, CreationCollisionOption.GenerateUniqueName);
+                string localfolder = ApplicationData.Current.LocalFolder.Path;
+                var array = localfolder.Split('\\');
+                var username = array[2];
+                string path = @"C:\Users\" + username + @"\Pictures";
+                string sourceFile = System.IO.Path.Combine(path, fileName);
                 var item = obj["text"].ToString();
                 //System.Diagnostics.Debug.WriteLine(item);
                 using (var destination = File.AppendText(sourceFile))
