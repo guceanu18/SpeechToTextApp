@@ -17,6 +17,8 @@ namespace Client
         private static string key;
         private static IRandomAccessStream stream;
         
+
+
         public Client(IRandomAccessStream inputStream)
         {
             port = "12320";
@@ -41,7 +43,12 @@ namespace Client
             byte[] api = Encoding.UTF8.GetBytes("{\"config\": {\"key\": \"" + key + "\"}}");
             await ws.SendAsync(new ArraySegment<byte>(api/*, 0, api.Length*/), WebSocketMessageType.Text, true, CancellationToken.None);
 
-           MemoryStream memoryStream = (MemoryStream)stream.AsStreamForRead();
+            MemoryStream memoryStream = (MemoryStream)stream.AsStreamForRead();
+
+            string fileName = "text.txt";
+            var picturesLibrary = await StorageLibrary.GetLibraryAsync(KnownLibraryId.Pictures);
+            StorageFolder captureFolder = picturesLibrary.SaveFolder;
+            var audioFile = await captureFolder.CreateFileAsync(fileName, CreationCollisionOption.GenerateUniqueName);
 
             byte[] data = new byte[16000];
 
@@ -79,13 +86,14 @@ namespace Client
             var receivedString = Encoding.UTF8.GetString(result, 0, receiveTask.Result.Count);
 
             JObject obj = JObject.Parse(receivedString);
-            
+            string fileName = "text.txt";
+            /*var picturesLibrary = await StorageLibrary.GetLibraryAsync(KnownLibraryId.Pictures);
+            StorageFolder captureFolder = picturesLibrary.SaveFolder;
+            var audioFile = await captureFolder.CreateFileAsync(fileName, CreationCollisionOption.GenerateUniqueName);*/
+
             if (receivedString.Contains("text"))
             {
-                string fileName = "text.txt";
-                var picturesLibrary = await StorageLibrary.GetLibraryAsync(KnownLibraryId.Pictures);
-                StorageFolder captureFolder = picturesLibrary.SaveFolder;
-                var audioFile = await captureFolder.CreateFileAsync(fileName, CreationCollisionOption.GenerateUniqueName);
+                
                 string localfolder = ApplicationData.Current.LocalFolder.Path;
                 var array = localfolder.Split('\\');
                 var username = array[2];
