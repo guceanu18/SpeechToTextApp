@@ -2,13 +2,12 @@
 using System.Threading.Tasks;
 using Windows.Media.Capture;
 using Windows.Media.MediaProperties;
-using Windows.Storage;
 using Windows.System.Display;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Client;
 using System.IO;
 using Windows.Storage.Streams;
+using Windows.UI.Core.Preview;
 
 namespace SpeechToTextApp
 {
@@ -21,20 +20,34 @@ namespace SpeechToTextApp
         public static MemoryStream memoryStream = new MemoryStream();
         public IRandomAccessStream stream = memoryStream.AsRandomAccessStream();
 
+        private static Client.Client client;
+
         public MainPage()
         {
             this.InitializeComponent();
-
-            btnRec.IsEnabled = true;
+            btnRec.IsEnabled = false;
             btnStop.IsEnabled = false;
+
+            SystemNavigationManagerPreview.GetForCurrentView().CloseRequested += this.OnCloseRequest;
+
+            client = new Client.Client();
+            Task task1 =  client.ConnectToServer();
+            Task task2 = client.CreateFile();
 
             var taskInitializeMediaCaptureAsync = Task.Run(async () => await InitializeMediaCaptureAsync());
 
+            btnRec.IsEnabled = true;
+            btnStop.IsEnabled = false;
+        }
+
+        private void OnCloseRequest(object sender, SystemNavigationCloseRequestedPreviewEventArgs e)
+        {
+            Task task = client.DisconnectFromServer();
+            task.Wait();
         }
 
         async Task InitializeMediaCaptureAsync()
         {
-            mediaCapture = new MediaCapture();
             mediaCapture = new MediaCapture();
             await mediaCapture.InitializeAsync();
         }
@@ -49,31 +62,22 @@ namespace SpeechToTextApp
         async Task stopRecording()
         {
             await mediaCapture.StopRecordAsync();
-            btnRec.IsEnabled = true;
-            btnStop.IsEnabled = false;
         }
 
-        void btnRec_Click(object sender, RoutedEventArgs e)
+        async void btnRec_Click(object sender, RoutedEventArgs e)
         {
+            await startRecording();
             btnStop.IsEnabled = true;
             btnRec.IsEnabled = false;
-
-            //await startRecording();
-
-            Task taskStartRecording = Task.Run(async () => await startRecording());
-            
         }
 
         async void btnStop_Click(object sender, RoutedEventArgs e)
         {
-            btnStop.IsEnabled = false;
-            btnRec.IsEnabled = true;
-
             await stopRecording();
-            Client.Client.start(stream);
-            //var task = stopRecording();
+            client.StreamHandler(stream);
 
-
+            btnStop.IsEnabled = false;
+            btnRec.IsEnabled = true;        
         }
     }
 }

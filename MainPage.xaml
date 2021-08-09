@@ -5,7 +5,8 @@
     xmlns:local="using:SpeechToTextApp"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d" Height="168" Width="410">
+    mc:Ignorable="d" Height="168" Width="410"
+    xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities">
 
     <Page.Resources>
         <SolidColorBrush x:Key="TranslucentBlackBrush" Color="Black" Opacity="1"/>
