@@ -21,6 +21,8 @@ namespace SpeechToTextApp
         public IRandomAccessStream stream = memoryStream.AsRandomAccessStream();
 
         private static Client.Client client;
+        public static bool isRecording;
+
 
         public MainPage()
         {
@@ -56,28 +58,43 @@ namespace SpeechToTextApp
         {
             MediaEncodingProfile encodingProfile = MediaEncodingProfile.CreateWav(AudioEncodingQuality.Medium);
             encodingProfile.Audio = AudioEncodingProperties.CreatePcm(16000, 1, 16);
-            await mediaCapture.StartRecordToStreamAsync(encodingProfile, stream);
+            
+            while (isRecording)
+            {
+                await mediaCapture.StartRecordToStreamAsync(encodingProfile, stream);
+                
+                if(stream.AsStream().Length != 0) 
+                    client.StreamHandler(stream);
+
+
+                await mediaCapture.StopRecordAsync();
+                if (!isRecording) break;
+            }
         }
 
         async Task stopRecording()
         {
             await mediaCapture.StopRecordAsync();
+            stream.Size = 0;
         }
 
         async void btnRec_Click(object sender, RoutedEventArgs e)
         {
-            await startRecording();
+            isRecording = true;
             btnStop.IsEnabled = true;
             btnRec.IsEnabled = false;
+            await startRecording();
+            
+            
         }
 
         async void btnStop_Click(object sender, RoutedEventArgs e)
         {
-            await stopRecording();
-            client.StreamHandler(stream);
-
+            isRecording = false;
             btnStop.IsEnabled = false;
-            btnRec.IsEnabled = true;        
+            btnRec.IsEnabled = true;
+            //await stopRecording();
+            //client.StreamHandler(stream);
         }
     }
 }

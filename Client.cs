@@ -50,7 +50,7 @@ namespace Client
         public async Task CreateFile()
         {
             string fileName = "text.txt";
-            var picturesLibrary = await StorageLibrary.GetLibraryAsync(KnownLibraryId.Pictures);
+            var picturesLibrary = await StorageLibrary.GetLibraryAsync(KnownLibraryId.Music);
             StorageFolder captureFolder = picturesLibrary.SaveFolder;
             var textFile = await captureFolder.CreateFileAsync(fileName, CreationCollisionOption.GenerateUniqueName);
             fileName = textFile.Name;
@@ -58,7 +58,7 @@ namespace Client
             string localfolder = ApplicationData.Current.LocalFolder.Path;
             var array = localfolder.Split('\\');
             var username = array[2];
-            string path = @"C:\Users\" + username + @"\Pictures";
+            string path = @"C:\Users\" + username + @"\Music";
             sourceFile = System.IO.Path.Combine(path, fileName);
         }
 
@@ -81,9 +81,9 @@ namespace Client
             Task<WebSocketReceiveResult> receiveTask = ws.ReceiveAsync(new ArraySegment<byte>(result), CancellationToken.None);
             await receiveTask;
             var receivedString = Encoding.UTF8.GetString(result, 0, receiveTask.Result.Count);
-
+            System.Diagnostics.Debug.WriteLine(receivedString);
             if (receivedString.Contains("partial"))
-            {
+            {   
                 saveText(jsonHandler(receivedString));
             }
             if (receivedString.Contains("message"))
@@ -104,7 +104,7 @@ namespace Client
             using (var destination = File.AppendText(sourceFile))
             {
                 destination.WriteLine(item);
-                System.Diagnostics.Debug.WriteLine(item);
+                //System.Diagnostics.Debug.WriteLine(item);
             }
         }
 
