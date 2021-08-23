@@ -62,21 +62,23 @@ namespace SpeechToTextApp
             while (isRecording)
             {
                 await mediaCapture.StartRecordToStreamAsync(encodingProfile, stream);
-                
-                if(stream.AsStream().Length != 0) 
-                    client.StreamHandler(stream);
 
+                if (stream.AsStream().Length != 0)
+                {
+                    client.StreamHandler(stream);
+                    await Task.Delay(250);
+                } 
 
                 await mediaCapture.StopRecordAsync();
                 if (!isRecording) break;
             }
         }
 
-        async Task stopRecording()
+        /*async Task stopRecording()
         {
             await mediaCapture.StopRecordAsync();
             stream.Size = 0;
-        }
+        }*/
 
         async void btnRec_Click(object sender, RoutedEventArgs e)
         {
@@ -84,15 +86,14 @@ namespace SpeechToTextApp
             btnStop.IsEnabled = true;
             btnRec.IsEnabled = false;
             await startRecording();
-            
-            
         }
 
-        async void btnStop_Click(object sender, RoutedEventArgs e)
+        void btnStop_Click(object sender, RoutedEventArgs e)
         {
             isRecording = false;
             btnStop.IsEnabled = false;
             btnRec.IsEnabled = true;
+            //await client.DisconnectFromServer();
             //await stopRecording();
             //client.StreamHandler(stream);
         }
