@@ -74,11 +74,11 @@ namespace SpeechToTextApp
             }
         }
 
-        /*async Task stopRecording()
+        async Task stopRecording()
         {
             await mediaCapture.StopRecordAsync();
             stream.Size = 0;
-        }*/
+        }
 
         async void btnRec_Click(object sender, RoutedEventArgs e)
         {
